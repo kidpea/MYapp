@@ -1,0 +1,62 @@
+---
+title: "AboutMYapp"
+author: "Kidpea LAU"
+date: "2018Äê10ÔÂ23ÈÕ"
+output: slidy_presentation
+runtime: shiny
+---
+
+## R Markdown
+
+This is an R Markdown presentation about the app i produced lately.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## THE app
+
+- show the scatter plot of random pionts with the middle piont u can choose.
+- calculate the size of the scatter.
+
+
+## Slide with R Output
+
+```{r echo=FALSE}
+library(shiny)
+
+sliderInput("bins",
+                   "Number of bins:",
+                   min = -50,max=50,value = 100)
+numericInput("Num","Input the population U want(0~100)",value = 100,min=0,max = 100,step = 1)
+
+numericInput("Mid","Decisede the middle value (-50~50)",value = 50,min = -50,max=50)
+       
+ 
+```
+
+
+```{r echo=FALSE}
+renderPlot({
+    # generate bins based on input$bins from ui.R
+    NumOfP<-input$Num
+    meanOfP<-input$Mid
+    maxX<-input$bins
+    X<-rnorm(NumOfP,mean = meanOfP,sd=maxX)
+    Y<-rnorm(NumOfP,mean = meanOfP,sd=maxX)
+    
+    # draw the histogram with the specified number of bins
+    plot(X,Y)
+    
+  })
+model1<-reactive({
+    maxX<-input$bins
+    pred<-maxX*maxX
+  })
+output$pred<-renderText({
+    model1()
+  })
+
+ 
+```
+
+##Thanks 
+have a nice day
